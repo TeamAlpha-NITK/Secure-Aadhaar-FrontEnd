@@ -1,0 +1,31 @@
+<div *ngIf="isIdentityAssigned;then identityPresent else notPresent">here is ignored</div>
+<ng-template #notPresent>
+    <div class="image-select">
+        <button mat-raised-button (click)="fileInput.click()">Select Image</button>
+        <input id="card" class="image-select" type="file" #fileInput />
+    </div>
+    <button mat-raised-button color="primary" (click)="upload()">Add Card</button>
+</ng-template>
+<ng-template #identityPresent>
+  <button mat-raised-button (click)="viewMyAadhaar()">View My Aadhaar</button>
+  <mat-card>
+    <mat-card-content>
+      <h2>Requests</h2>
+      <mat-tab-group class="demo-tab-group">
+        <mat-tab label="Received">
+          <div class="demo-tab-content">
+            <mat-card *ngFor="let transaction of received">
+              {{transaction.transactionId}}
+              {{}}
+            </mat-card>  
+          </div>
+        </mat-tab>
+        <mat-tab label="Sent">
+          <div class="demo-tab-content">
+            
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+  </mat-card>
+</ng-template>

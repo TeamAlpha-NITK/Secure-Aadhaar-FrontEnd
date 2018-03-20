@@ -1,0 +1,54 @@
+<form novalidate
+      [formGroup]="myform">
+
+  
+  <div class="form-group">
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="First Name" class="form-control" formControlName="firstName">
+    </mat-form-field>
+    <!-- <label>First Name</label>
+    <input type="text"
+            class="form-control"
+            formControlName="firstName"> -->
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Last Name" class="form-control" formControlName="lastName">
+    </mat-form-field>
+    <!-- <label>Last Name</label>
+    <input type="text"
+            class="form-control"
+            formControlName="lastName"> -->
+  </div>
+  <div>
+    <mat-form-field class="example-full-width">
+      <input type="email" matInput placeholder="Email" class="form-control" formControlName="email">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field class="example-full-width">
+      <textarea matInput placeholder="Address" class="form-control" formControlName="address"></textarea>
+    </mat-form-field>
+  </div>
+  <div formGroupName="dob"> 
+    <mat-form-field class="example-full-width">
+      <input matInput type="number" placeholder="Date" class="form-control" formControlName="date">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input matInput type="number" placeholder="Month" class="form-control" formControlName="month">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input matInput type="number" placeholder="Year" class="form-control" formControlName="year">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field class="example-full-width">
+        <mat-select class="form-control"
+        formControlName="gender" placeholder="Gender">
+            <mat-option *ngFor="let gender of genders" [value]="gender">
+              {{ gender }}
+            </mat-option>
+          </mat-select>
+    </mat-form-field>
+  </div>
+  <button mat-raised-button (click)="issueAadhaarRequest()" color="primary">Submit</button>
+  <pre>{{myform.value | json}}</pre>
+</form>
