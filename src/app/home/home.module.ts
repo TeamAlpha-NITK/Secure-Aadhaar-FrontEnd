@@ -1,10 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent, RequestAadhaarComponent, ViewAadhaarComponent } from './dashboard/dashboard.component';
 import { RouterModule } from '@angular/router';
-import { MatButtonModule, MatCardModule, MatTabsModule } from '@angular/material';
+import { CookieService } from 'ngx-cookie-service';
+import { MatButtonModule, MatCardModule, MatTabsModule, MatSnackBar,
+   MatSnackBarModule, MatDialogModule, MatInputModule, MatProgressSpinnerModule } from '@angular/material';
 import { SecureAadhaarApiService } from '../services/secure-aadhaar-api.service';
 import { HttpModule } from '@angular/http';
+import { FormsModule } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
 
 @NgModule({
   imports: [
@@ -13,6 +17,11 @@ import { HttpModule } from '@angular/http';
     MatCardModule,
     MatTabsModule,
     HttpModule,
+    MatSnackBarModule,
+    MatDialogModule,
+    FormsModule,
+    MatInputModule,
+    MatProgressSpinnerModule,
     RouterModule.forChild([
       {
         path: '',
@@ -20,7 +29,8 @@ import { HttpModule } from '@angular/http';
       }
     ])
   ],
-  declarations: [DashboardComponent],
-  providers: [SecureAadhaarApiService]
+  declarations: [DashboardComponent, RequestAadhaarComponent, ViewAadhaarComponent],
+  entryComponents: [RequestAadhaarComponent, ViewAadhaarComponent],
+  providers: [SecureAadhaarApiService, CookieService, AuthService]
 })
 export class HomeModule { }

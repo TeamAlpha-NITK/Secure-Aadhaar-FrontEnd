@@ -1,28 +1,68 @@
-<div *ngIf="isIdentityAssigned;then identityPresent else notPresent">here is ignored</div>
+<mat-spinner *ngIf="loading"></mat-spinner>
+
+<div *ngIf="isWalletAssigned;then identityPresent else notPresent">here is ignored</div>
 <ng-template #notPresent>
     <div class="image-select">
-        <button mat-raised-button (click)="fileInput.click()">Select Image</button>
-        <input id="card" class="image-select" type="file" #fileInput />
+        <button style="margin: 20px" mat-raised-button (click)="fileInput.click()">Select Card</button>
+        <input style="display: none" id="card" class="image-select" type="file" #fileInput />
     </div>
-    <button mat-raised-button color="primary" (click)="upload()">Add Card</button>
+    <button mat-raised-button style="margin: 20px" color="primary" (click)="upload()">Add Card</button>
 </ng-template>
 <ng-template #identityPresent>
-  <button mat-raised-button (click)="viewMyAadhaar()">View My Aadhaar</button>
+  
   <mat-card>
     <mat-card-content>
-      <h2>Requests</h2>
+      <div style="display: flex; justify-content:space-between">
+          <h2>Requests</h2>
+          <div style="display: flex; align-content:flex-end">
+              <button style="margin: 10px" mat-raised-button (click)="viewMyAadhaar()">View My Aadhaar</button>
+              <button style="margin: 10px" mat-raised-button color="primary" (click)="requestAadhaar()">Request Aadhaar</button>
+          </div>
+          
+      </div>
       <mat-tab-group class="demo-tab-group">
         <mat-tab label="Received">
           <div class="demo-tab-content">
-            <mat-card *ngFor="let transaction of received">
-              {{transaction.transactionId}}
-              {{}}
+            <mat-card style="padding-bottom: 0" *ngFor="let transaction of receivedTransactions">
+              <mat-card-content style="display: flex; justify-content: space-between">
+                <div>
+                    <p>Transaction ID: {{ transaction.txId }}</p>
+                    <p>Aadhaar Number: <strong>{{ transaction.otherUserId }}</strong></p>
+                </div>
+              
+              <div style="display: flex; align-content:flex-end" *ngIf="transaction.status === 'NOT_RESPONDED'">
+                <button style="margin: 15px; padding: 0 10 0 10" mat-button (click)="grantAccess(transaction)">ACCEPT</button>
+                <button style="margin: 15px; padding: 0 10 0 10" mat-button (click)="rejectAccess(transaction)">REJECT</button>
+              </div>  
+              <div style="padding: 10px; color: rgb(8, 122, 8); font-weight: bold" *ngIf="transaction.status === 'GRANTED'">
+                {{transaction.status}}
+              </div>
+              <div style="padding: 10px; color: rgb(255, 37, 37); font-weight: bold" *ngIf="transaction.status === 'REJECTED'">
+                  {{transaction.status}}
+              </div>
+              </mat-card-content>
             </mat-card>  
           </div>
         </mat-tab>
         <mat-tab label="Sent">
           <div class="demo-tab-content">
-            
+            <mat-card style="padding-bottom: 0" *ngFor="let transaction of sentTransactions">
+              <mat-card-content style="display: flex; justify-content: space-between">
+                  <div>
+                      <p>Transaction ID: {{ transaction.txId }}</p>
+                      <p>Aadhaar Number: <strong>{{ transaction.otherUserId }}</strong></p>
+                  </div>
+              <div style="display: flex; align-content:flex-end" *ngIf="transaction.status === 'GRANTED'; else responded">
+                <button mat-raised-button style="margin: 15px; padding: 0 10 0 10" color="primary" (click)="viewAadhaar(transaction)"><strong>VIEW</strong></button>
+              </div>
+              <div style="padding: 10px; color: rgb(8, 10, 138); font-weight: bold" *ngIf="transaction.status === 'NOT_RESPONDED'">
+                  {{transaction.status}}
+                </div>
+                <div style="padding: 10px; color: rgb(255, 37, 37); font-weight: bold" *ngIf="transaction.status === 'REJECTED'">
+                    {{transaction.status}}
+                </div>
+              </mat-card-content>
+            </mat-card>
           </div>
         </mat-tab>
       </mat-tab-group>

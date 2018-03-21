@@ -1,5 +1,5 @@
 <form novalidate
-      [formGroup]="myform">
+      [formGroup]="myform" style="margin-top: 20px; margin-left: 20px">
 
   
   <div class="form-group">
@@ -50,5 +50,4 @@
     </mat-form-field>
   </div>
   <button mat-raised-button (click)="issueAadhaarRequest()" color="primary">Submit</button>
-  <pre>{{myform.value | json}}</pre>
 </form>
